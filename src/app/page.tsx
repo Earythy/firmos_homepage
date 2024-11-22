@@ -1,4 +1,4 @@
-import { LandingPage} from '@/components/landing-page';
+import { LandingPageComponent} from '@/components/landing-page';
 import { TokenGate } from '@/components/TokenGate';
 import { getSession } from '@/utils/session';
 import Footer from "@/components/Footer"; // Adjust the import path based on your project structure
@@ -40,7 +40,7 @@ async function Content({ searchParams }: { searchParams: SearchParams }) {
 >
   Hello & Welcome, &nbsp; &nbsp; <code>{data.client ? data.client.givenName : data.company?.name}</code>
 </h1>
-<LandingPage/>  
+<LandingPageComponent/>  
 <Footer /> {/* Add Footer here */}
     </main>
   );

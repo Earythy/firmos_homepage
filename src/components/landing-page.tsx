@@ -68,7 +68,118 @@ const faqData: FAQCategory[] = [
   }
 ]
 
-export function LandingPage() {
+const products = [
+  {
+    title: 'AI Talent Management',
+    timeline: '30 Days',
+    description: 'Advanced AI-powered system for recruiting, employee development, and workforce optimization.',
+    position: 'top',
+    color: '#2A2A2A',
+  },
+  {
+    title: 'AI Inbox Manager',
+    timeline: '45 Days',
+    description: 'Smart email management system that prioritizes, categorizes, and automates responses.',
+    position: 'bottom',
+    color: '#454545',
+  },
+  {
+    title: 'AI Content Generator',
+    timeline: '60 Days',
+    description: 'Automated content creation tool for marketing materials, social media, and documentation.',
+    position: 'top',
+    color: '#707070',
+  },
+  {
+    title: 'AI Marketing Analytics',
+    timeline: '90 Days',
+    description: 'Comprehensive analytics platform for tracking and optimizing marketing campaigns.',
+    position: 'bottom',
+    color: '#8A8A8A',
+  },
+  {
+    title: 'AI Financial Management',
+    timeline: '120 Days',
+    description: 'Automated system for managing invoices, track expenses, and financial reporting.',
+    position: 'top',
+    color: '#A5A5A5',
+  },
+]
+
+const styles = {
+  container: `min-h-screen bg-[#000000] text-white py-20 px-4 md:px-8`,
+  header: `text-center mb-20`,
+  roadmapContainer: `relative max-w-7xl mx-auto mt-16`,
+  timeline: `flex justify-between items-center mb-32`,
+  arrowContainer: `relative flex-1 h-24 flex items-stretch transition-all duration-300 cursor-pointer group`,
+  rectangle: `flex-1 flex items-center justify-center transition-all duration-300`,
+  triangle: `w-8 transition-all duration-300`,
+  arrowContent: `absolute inset-0 flex items-center justify-center text-2xl font-bold`,
+  title: `absolute text-xl font-bold transition-all duration-300 w-48 text-center`,
+  description: `mt-16`,
+}
+
+
+
+function TimelineSegment({
+  product,
+  index,
+  isSelected,
+  onSelect,
+}: {
+  product: { position: string; [key: string]: any }; // Define 'position' and allow additional properties
+  index: number;
+  isSelected: boolean;
+  onSelect: (index: number) => void;
+})
+
+{
+  const isTop = product.position === 'top'
+  const hoverColor = '#FE7443'
+  
+  return (
+    <div 
+      className={styles.arrowContainer}
+      onClick={() => onSelect(index)}
+    >
+      {/* Rectangle part */}
+      <div 
+        className={`${styles.rectangle} relative group-hover:bg-[#FE7443]`}
+        style={{ 
+          backgroundColor: isSelected ? hoverColor : product.color,
+        }}
+      >
+        <span className={`text-2xl font-bold z-10 transition-colors duration-300
+          ${index > 2 ? 'text-[#323232] group-hover:text-white' : 'text-white'}
+          ${isSelected ? 'text-white' : ''}`}
+        >
+          {product.timeline}
+        </span>
+      </div>
+
+      {/* Triangle part */}
+      <div 
+        className={`${styles.triangle} group-hover:bg-[#FE7443]`}
+        style={{
+          clipPath: 'polygon(0 0, 0 100%, 100% 50%)',
+          backgroundColor: isSelected ? hoverColor : product.color,
+        }}
+      />
+      
+      <div 
+        className={`${styles.title} 
+          ${isTop ? '-top-20' : 'bottom-[-5rem]'}
+          left-[calc(50%-6rem)]
+          ${isSelected ? 'text-[#FE7443]' : 'group-hover:text-[#FE7443]'}
+          ${index > 2 ? 'text-[#323232]' : 'text-white'}`}
+      >
+        {product.title}
+      </div>
+    </div>
+  )
+}
+
+export function LandingPageComponent() {
   const [activeVideo, setActiveVideo] = useState(0)
   const [activeClientVideo, setActiveClientVideo] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -76,6 +187,7 @@ export function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [openFAQItems, setOpenFAQItems] = useState<{ [key: string]: boolean }>({})
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedRoadmapIndex, setSelectedRoadmapIndex] = useState(0)
 
   const videos = [
     {
@@ -133,6 +245,7 @@ export function LandingPage() {
       overview: "Incommon Projects transformed their educational technology offerings using FirmOS, leading to a 55% increase in student engagement and a 40% improvement in learning outcomes. Our adaptive learning algorithms and analytics tools revolutionized personalized education delivery."
     }
   ]
+
 
   const overviewItems = [
     { icon: Zap, title: "Business Development", description: "Attract high-value clients and build a consistent pipeline." },
@@ -210,6 +323,9 @@ export function LandingPage() {
                   <Link href="#roadmap" className="text-[#FFFFFF] hover:bg-[#666666] hover:bg-opacity-50 px-3 py-1 rounded-full transition-colors">
                     Road Map
                   </Link>
+                  <Link href="#faq" className="text-[#FFFFFF] hover:bg-[#666666] hover:bg-opacity-50 px-3 py-1 rounded-full transition-colors">
+                    FAQ
+                  </Link>
                   <Link
                     href="https://app.firmos.ai/apps?id=3f717854-c530-470b-a56b-f53e82e296e7"
                     className="bg-gradient-to-r from-[#FE7443] to-[#FE8F68] text-[#FFFFFF] px-6 py-3 rounded-full hover:from-[#FE8F68] hover:to-[#FE7443] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-lg"
@@ -253,7 +369,10 @@ export function LandingPage() {
                     Client Success Stories
                   </Link>
                   <Link href="#roadmap" className="text-[#FFFFFF] hover:bg-[#666666] hover:bg-opacity-50 px-3 py-1 rounded-full transition-colors">
-                    Road Map
+                    Road Map            
+                  </Link>
+                  <Link href="#faq" className="text-[#FFFFFF] hover:bg-[#666666] hover:bg-opacity-50 px-3 py-1 rounded-full transition-colors">
+                    FAQ
                   </Link>
                   <Link
                     href="https://app.firmos.ai/apps?id=3f717854-c530-470b-a56b-f53e82e296e7"
@@ -294,7 +413,7 @@ export function LandingPage() {
           <div className="container mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
               {/* Video Buttons (2/12 width) */}
-              <div className="md:col-span-2 flex md:flex-col space-x-4 md:space-x-0 space-y-0 md:space-y-4 overflow-x-auto md:overflow-x-visible pb-4">
+              <div className="md:col-span-2 flex md:flex-col space-x-4 md:space-x-0 space-y-0 md:space-y-4 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0">
                 {videos.map((video, index) => (
                   <Button
                     key={index}
@@ -399,7 +518,6 @@ export function LandingPage() {
                 <p className="text-[#CCCCCC] mb-4">
                   Bi-weekly strategy sessions with tailored advice, templates, and actionable steps to optimize operations, strategies, and team performance.
                 </p>
-                <p className="text-[#FFFFFF] mb-2">$750/month</p>
               </motion.div>
             </div>
             <motion.div 
@@ -541,6 +659,68 @@ export function LandingPage() {
           </div>
         </section>
 
+        {/* Roadmap Section */}
+        <section className={styles.container} id="roadmap">
+          <div className={styles.header}>
+            <motion.div 
+              className="inline-block bg-gradient-to-r from-[#FE7443] to-[#FEAB8E] p-1 rounded-lg mb-6"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-4xl md:text-5xl font-bold bg-black px-6 py-3 rounded-lg">
+                Product Roadmap
+              </h1>
+            </motion.div>
+            <motion.p
+              className="text-xl text-[#CCCCCC] max-w-2xl mx-auto mt-6"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Our product roadmap outlines the strategic direction and planned features for our AI-powered solutions. It provides a clear timeline of upcoming developments, ensuring transparency and alignment with our users' evolving needs.
+            </motion.p>
+          </div>
+
+          <div className="h-10"></div> {/* Adds 10px height space */}
+          
+          <div className={styles.roadmapContainer}>
+            <div className={styles.timeline}>
+              {products.map((product, index) => (
+                <TimelineSegment
+                  key={index}
+                  product={product}
+                  index={index}
+                  isSelected={selectedRoadmapIndex === index}
+                  onSelect={setSelectedRoadmapIndex}
+                />
+              ))}
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedRoadmapIndex}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className={styles.description}
+              >
+                <Card className="bg-[#323232] border-[#666666]">
+                  <CardContent className="p-6">
+                    <h3 className="text-2xl font-bold text-[#FE7443] mb-4">
+                      {products[selectedRoadmapIndex].title}
+                    </h3>
+                    <p className="text-lg text-[#CCCCCC] leading-relaxed">
+                      {products[selectedRoadmapIndex].description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section className="py-16 px-4 bg-gradient-to-b from-[#323232] to-[#000000]" id="faq">
           <div className="container mx-auto max-w-4xl">
@@ -641,3 +821,5 @@ export function LandingPage() {
     </div>
   )
 }
+
+export { LandingPageComponent as Component };
